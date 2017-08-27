@@ -1,0 +1,128 @@
+{
+  "ruleId":"1",
+  "ruleName":"rule1",
+  "ruleCriteria" : [
+
+    {
+      "selectedQuestionId":"question1",
+      "selectedOptionId":"opt1",
+      "optionList": [
+        {
+          "optionId": "opt1",
+          "optionText": "optionText1"
+        },
+        {
+          "optionId": "opt2",
+          "optionText": "optionText2"
+        },
+        {
+          "optionId": "opt3",
+          "optionText": "optionText3"
+        }
+
+      ],
+      "questionList" :  [
+
+       {
+          "questionId": "question1",
+          "questionText": "questionText1"
+
+       },
+       {
+          "questionId": "question2",
+          "questionText": "questionText2"
+       },
+       {
+          "questionId": "question3",
+          "questionText": "questionText3"
+       },
+       {
+          "questionId": "question4",
+          "questionText": "questionText4"
+        }
+          ]
+      },
+
+          {
+            "selectedQuestionId":"question3",
+            "selectedOptionId":"opt2",
+            "optionList": [
+              {
+                "optionId": "opt1",
+                "optionText": "optionText1"
+              },
+              {
+                "optionId": "opt2",
+                "optionText": "optionText2"
+              },
+              {
+                "optionId": "opt3",
+                "optionText": "optionText3"
+              }
+
+            ],
+            "questionList" :  [
+
+             {
+                "questionId": "question1",
+                "questionText": "questionText1"
+
+             },
+             {
+                "questionId": "question2",
+                "questionText": "questionText2"
+             },
+             {
+                "questionId": "question3",
+                "questionText": "questionText3"
+             },
+             {
+                "questionId": "question4",
+                "questionText": "questionText4"
+              }
+                ]
+            },
+
+                {
+                  "selectedQuestionId":"question2",
+                  "selectedOptionId":"opt1",
+                  "optionList": [
+                    {
+                      "optionId": "opt1",
+                      "optionText": "optionText1"
+                    },
+                    {
+                      "optionId": "opt2",
+                      "optionText": "optionText2"
+                    },
+                    {
+                      "optionId": "opt3",
+                      "optionText": "optionText3"
+                    }
+
+                  ],
+                  "questionList" :  [
+
+                   {
+                      "questionId": "question1",
+                      "questionText": "questionText1"
+
+                   },
+                   {
+                      "questionId": "question2",
+                      "questionText": "questionText2"
+                   },
+                   {
+                      "questionId": "question3",
+                      "questionText": "questionText3"
+                   },
+                   {
+                      "questionId": "question4",
+                      "questionText": "questionText4"
+                    }
+                      ]
+                  }
+
+ ]
+
+}

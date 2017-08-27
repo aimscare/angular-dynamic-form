@@ -1,0 +1,64 @@
+{
+  "ruleId":"1",
+  "ruleName":"rule1",
+  "ruleCriteria" : {
+
+      "selections":[
+        {
+        "selectedQuestionId":"question1",
+        "selectedQuestionText":"questionText1",
+        "selectedOptionId":"opt1",
+        "selectedOptionText":"optionText1"
+
+      },
+      {
+        "selectedQuestionId":"question2",
+        "selectedQuestionText":"questionText2",
+        "selectedOptionId":"opt3",
+        "selectedOptionText":"optionText3"
+    },
+    {
+      "selectedQuestionId":"question3",
+      "selectedQuestionText":"questionText3",
+      "selectedOptionId":"opt1",
+      "selectedOptionText":"optionText1"
+    }
+      ],
+      "optionList": [
+        {
+          "optionId": "opt1",
+          "optionText": "optionText1"
+        },
+        {
+          "optionId": "opt2",
+          "optionText": "optionText2"
+        },
+        {
+          "optionId": "opt3",
+          "optionText": "optionText3"
+        }
+
+      ],
+      "questionList" :  [
+
+       {
+          "questionId": "question1",
+          "questionText": "questionText1"
+
+       },
+       {
+          "questionId": "question2",
+          "questionText": "questionText2"
+       },
+       {
+          "questionId": "question3",
+          "questionText": "questionText3"
+       },
+       {
+          "questionId": "question4",
+          "questionText": "questionText4"
+        }
+          ]
+      }
+
+}

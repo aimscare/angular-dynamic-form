@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
+
+        <!--Rule Criteria-->
+        <div formArrayName="ruleCriterias">
+          <div *ngFor="let criteria of myForm.controls.ruleCriterias.controls; let i=index" class="panel panel-default">
+            <div class="panel-heading">
+              <span>Rule Criteria {{i + 1}}</span>
+              <span class="glyphicon glyphicon-remove pull-right" *ngIf="myForm.controls.ruleCriterias.controls.length > 1" (click)="removeRuleCriteria(i)"></span>
+            </div>
+            <div class="panel-body" [formGroupName]="i">
+              <div class="form-group col-xs-6">
+                <label>Question</label>
+                <p-dropdown name="singleselect" [options]="questions" formControlName="question"
+                                  placeholder="Select a question" (onChange)="enableSubmit()" [autoWidth]="false"></p-dropdown>
+                <small [hidden]="myForm.controls.ruleCriterias.controls[i].controls.question.valid" class="text-danger">
+                    question is required
+                </small>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="margin-20">
+          <a (click)="addRuleCriteria()" style="cursor: default">
+            Add another rule criteria +
+          </a>
+        </div>
+
+        <div class="margin-20">
+          <button type="submit" class="btn btn-primary pull-right" [disabled]="!enableSubmitButton">Submit</button>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="margin-20">
+          <div>myForm details:-</div>
+          <pre>Is myForm valid?: <br>{{myForm.valid | json}}</pre>
+          <pre>form value: <br>{{myForm.value | json}}</pre>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
