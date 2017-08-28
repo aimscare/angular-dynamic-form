@@ -36,7 +36,7 @@ options: SelectItem[];
 criteriaCount:number=0;
 
 createMode:boolean=false;
-enableSubmitButton:boolean=false;
+disableSubmitButton:boolean=true;
 
 rule:IRule;
 
@@ -99,33 +99,59 @@ rule:IRule;
     enableSubmit(){
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
         console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
-        this.enableSubmitButton=_.some(arrayControl.controls,function(control){
-          return control._status==='VALID';
-        });
-
-        console.log("enableSubmit=["+this.enableSubmitButton+"]");
+        console.log("enableSubmit disableSubmit1=["+this.disableSubmitButton+"]");
+        this.disableSubmitButton=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
+           return formgroup.status=='INVALID';
+         })
+        console.log("enableSubmit disableSubmit2=["+this.disableSubmitButton+"]");
     }
 
     addRuleCriteria() {
-      this.enableSubmitButton=false;
+
+
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
-        console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
-        //let question=  arrayControl.controls[2].get('question').value;
-        //console.log("addRuleCriteria:array questionId=["+question.questionId+"],questionText=["+question.questionText+"]")
-        if(arrayControl.controls.length < this.criteriaCount){
-          this.initRuleCriteria();
-        }
-        console.log("addRuleCriteria enableSubmit=["+this.enableSubmitButton+"]");
+
+      var status=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
+       return formgroup.status=='INVALID';
+      })
+      if(status){
+        return
+      }
+
+      arrayControl.controls.forEach(formgroup =>{
+        console.log(formgroup.value+"value=["+JSON.stringify(formgroup.value)+"]");
+        var index = this.questions.indexOf(formgroup.value);
+        this.questions.splice(index, 1);
+        //this.questions.remove(formgroup.value)
+
+      });
+
+      console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
+      if(arrayControl.controls.length < this.criteriaCount){
+        this.initRuleCriteria();
+      }
+
+      console.log("addRuleCriteria disableSubmit1=["+this.disableSubmitButton+"]");
+      this.disableSubmitButton=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
+       return formgroup.status=='INVALID';
+     })
+     console.log("addRuleCriteria disableSubmit2=["+this.disableSubmitButton+"]");
+
+
+
      }
 
     removeRuleCriteria(i: number) {
 
         const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
         arrayControl.removeAt(i);
-        this.enableSubmitButton=_.some(arrayControl.controls,function(control){
-          return control._status==='VALID';
-        });
-        console.log("removeRuleCriteria enableSubmit=["+this.enableSubmitButton+"]");
+
+        console.log("removeRuleCriteria disableSubmit1=["+this.disableSubmitButton+"]");
+
+        this.disableSubmitButton=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
+         return formgroup.status=='INVALID';
+       })
+        console.log("removeRuleCriteria disableSubmit2=["+this.disableSubmitButton+"]");
     }
 
     save(model: Customer) {
