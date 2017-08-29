@@ -30,7 +30,7 @@
         </div>
 
         <div class="margin-20">
-          <button type="submit" class="btn btn-primary pull-right" [disabled]="disableSubmitButton">Submit</button>
+          <button type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid">Submit</button>
         </div>
         <div class="clearfix"></div>
 

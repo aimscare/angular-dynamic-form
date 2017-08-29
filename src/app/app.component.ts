@@ -14,6 +14,7 @@ import * as _s from 'underscore.string';
   moduleId: module.id,
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
 
@@ -49,7 +50,6 @@ rule:IRule;
 
 
       this.myForm = this._fb.group({
-          name: ['', [Validators.required, Validators.minLength(5)]],
           ruleCriterias: this._fb.array([])
       });
 
@@ -97,13 +97,7 @@ rule:IRule;
     }
 
     enableSubmit(){
-      const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
-        console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
-        console.log("enableSubmit disableSubmit1=["+this.disableSubmitButton+"]");
-        this.disableSubmitButton=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
-           return formgroup.status=='INVALID';
-         })
-        console.log("enableSubmit disableSubmit2=["+this.disableSubmitButton+"]");
+
     }
 
     addRuleCriteria() {
@@ -118,40 +112,61 @@ rule:IRule;
         return
       }
 
+
+      var ids = [];
+
+
       arrayControl.controls.forEach(formgroup =>{
-        console.log(formgroup.value+"value=["+JSON.stringify(formgroup.value)+"]");
-        var index = this.questions.indexOf(formgroup.value);
-        this.questions.splice(index, 1);
-        //this.questions.remove(formgroup.value)
+        console.log("value=["+JSON.stringify(formgroup.value)+"]");
+        ids.push(formgroup.value);
+        //ids.push(_.pluck(formgroup.value,'questionId'));
+        //console.log("id="+id);
 
       });
+
+      var arr = [{
+  id: 1,
+  name: 'a'
+}, {
+  id: 2,
+  name: 'b'
+}, {
+  id: 3,
+  name: 'c'
+}];
+
+//substract third
+arr = _.without(arr, _.findWhere(arr, {
+  id: 3
+}));
+console.log("substract=[]"+arr);
+
+      //var newArray = this.questions.slice()
+console.log("ids"+ids.length);
+ids.forEach( formgroup => {
+
+  var test=JSON.stringify({label: formgroup.question.questionText, value: {questionText: formgroup.question.questionText, questionId: formgroup.question.questionId}});
+
+
+  console.log("newArray=["+formgroup.question.questionId+"]");
+});
+
+this.questions.forEach(selectItem =>{
+  console.log("After Removed=["+JSON.stringify(selectItem.value)+"]");
+});
 
       console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
       if(arrayControl.controls.length < this.criteriaCount){
         this.initRuleCriteria();
       }
 
-      console.log("addRuleCriteria disableSubmit1=["+this.disableSubmitButton+"]");
-      this.disableSubmitButton=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
-       return formgroup.status=='INVALID';
-     })
-     console.log("addRuleCriteria disableSubmit2=["+this.disableSubmitButton+"]");
-
 
 
      }
 
     removeRuleCriteria(i: number) {
-
         const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
         arrayControl.removeAt(i);
-
-        console.log("removeRuleCriteria disableSubmit1=["+this.disableSubmitButton+"]");
-
-        this.disableSubmitButton=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
-         return formgroup.status=='INVALID';
-       })
-        console.log("removeRuleCriteria disableSubmit2=["+this.disableSubmitButton+"]");
     }
 
     save(model: Customer) {
@@ -196,8 +211,17 @@ rule:IRule;
 
       this.options=options;
       this.questions=questions;
+
+      this.questions.forEach( q=>{
+        console.log(q);
+      })
       //console.log("generateRule=["+this.questions+"]");
       //console.log(this.options);
+this.questions = this.questions.filter(function(o) { return o.value.questionText === "questionText4"; });
+
+this.questions.forEach( q=>{
+  console.log(q);
+})
     }
 
 
