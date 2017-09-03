@@ -67,7 +67,7 @@ rule:IRule;
             this.initRuleCriteria();
           }
       });
-
+ 
 
     }
 
