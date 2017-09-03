@@ -10,6 +10,7 @@ import * as _s from 'underscore.string';
 
 
 
+
 @Component({
   moduleId: module.id,
   selector: 'app-root',
@@ -30,7 +31,8 @@ selectedCountries: string[] = [];
 
 activeIndex: number = 0;
 
-questions: SelectItem[];
+
+questions: any[];
 
 options: SelectItem[];
 
@@ -69,13 +71,56 @@ rule:IRule;
 
     }
 
+    additions :number=0;
+
+    questionOptions(arrayControl:any): any[] {
+
+      console.log("questionOptions:array length=["+arrayControl.controls.length+"]");
+
+     
+      if(arrayControl.controls.length > 0){
+
+        var ids=[];
+        arrayControl.controls.forEach(formgroup =>{
+          console.log("value1=["+JSON.stringify(formgroup.activeIndex)+"]");
+
+          console.log("value2=["+JSON.stringify(formgroup.value.questions)+"]");
+          ids.push(formgroup.value.question);
+  
+        });
+
+        for(var i=0;i < arrayControl.controls.length ;i++){
+          //myForm.controls.ruleCriterias.controls[i].controls.questions.value
+          //["0"].controls.questions
+          //.controls["0"].controls.questions
+          console.log("selected question=["+arrayControl.controls[i].controls["question"].value+"]");
+          var previousValue=arrayControl.controls[i].controls["question"].value;
+          var filtered= this.questions.filter(function(o) { return o.questionText === previousValue; });
+          arrayControl.controls[i].controls["questions"].patchValue(filtered);
+          console.log("Index=["+i+"],value=["+arrayControl.controls[i].controls.questions.value.length+"]");
+        }
+
+       
+        
+
+        //this.questions = this.questions.filter(function(o) { return o.questionText === "questionText4"; });
+        console.log("Inside loop=["+arrayControl.controls['questions']);
+        return filtered;
+        
+      }
+      return this.questions;
+    }  
 
     initRuleCriteria() {
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
       let newGroup = this._fb.group({
           question: ['', Validators.required],
+          questions:[this.questionOptions(arrayControl)]
         });
-        arrayControl.push(newGroup); ;
+        
+        var ctrlsSize=arrayControl.controls.length;     
+        arrayControl.push(newGroup); 
+        //arrayControl.controls[0].setValue('questions',this.questions);
     }
 
     initRuleCriteriaModifyMode(rule:IRule) {
@@ -104,63 +149,10 @@ rule:IRule;
 
 
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
-
-      var status=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
-       return formgroup.status=='INVALID';
-      })
-      if(status){
-        return
-      }
-
-
-      var ids = [];
-
-
-      arrayControl.controls.forEach(formgroup =>{
-        console.log("value=["+JSON.stringify(formgroup.value)+"]");
-        ids.push(formgroup.value);
-        //ids.push(_.pluck(formgroup.value,'questionId'));
-        //console.log("id="+id);
-
-      });
-
-      var arr = [{
-  id: 1,
-  name: 'a'
-}, {
-  id: 2,
-  name: 'b'
-}, {
-  id: 3,
-  name: 'c'
-}];
-
-//substract third
-arr = _.without(arr, _.findWhere(arr, {
-  id: 3
-}));
-console.log("substract=[]"+arr);
-
-      //var newArray = this.questions.slice()
-console.log("ids"+ids.length);
-ids.forEach( formgroup => {
-
-  var test=JSON.stringify({label: formgroup.question.questionText, value: {questionText: formgroup.question.questionText, questionId: formgroup.question.questionId}});
-
-
-  console.log("newArray=["+formgroup.question.questionId+"]");
-});
-
-this.questions.forEach(selectItem =>{
-  console.log("After Removed=["+JSON.stringify(selectItem.value)+"]");
-});
-
       console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
-      if(arrayControl.controls.length < this.criteriaCount){
+      if(arrayControl.controls.length <= this.criteriaCount){
         this.initRuleCriteria();
       }
-
-
 
      }
 
@@ -210,18 +202,10 @@ this.questions.forEach(selectItem =>{
       // }
 
       this.options=options;
-      this.questions=questions;
+      this.questions=rule.ruleCriteria.questionList;
+      //this.questions=questions;
 
-      this.questions.forEach( q=>{
-        console.log(q);
-      })
-      //console.log("generateRule=["+this.questions+"]");
-      //console.log(this.options);
-this.questions = this.questions.filter(function(o) { return o.value.questionText === "questionText4"; });
 
-this.questions.forEach( q=>{
-  console.log(q);
-})
     }
 
 

@@ -13,8 +13,11 @@
             <div class="panel-body" [formGroupName]="i">
               <div class="form-group col-xs-6">
                 <label>Question</label>
-                <p-dropdown name="singleselect" [options]="questions" formControlName="question"
-                                  placeholder="Select a question" (onChange)="enableSubmit()" [autoWidth]="false"></p-dropdown>
+                <!-- <p-dropdown name="singleselect" [options]="myForm.controls.ruleCriterias.controls[i].controls.questions" formControlName="question"
+                                  placeholder="Select a question" (onChange)="enableSubmit()" [autoWidth]="false"></p-dropdown> -->
+                                  <select formControlName="question">
+                                    <option *ngFor="let c of myForm.controls.ruleCriterias.controls[i].controls.questions.value">{{c.questionText}}</option>
+                                  </select>                                                    
                 <small [hidden]="myForm.controls.ruleCriterias.controls[i].controls.question.valid" class="text-danger">
                     question is required
                 </small>
