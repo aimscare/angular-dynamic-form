@@ -19,7 +19,7 @@
                                   <p>{{i}} Question: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.question.value}}</p>
                                   <select formControlName="question">
                                       <option disabled value> -- select an option -- </option>
-                                    <option *ngFor="let c of myForm.controls.ruleCriterias.controls[i].controls.questions.value">{{c.questionText}}</option>
+                                    <option  [value]="c.questionText" *ngFor="let c of myForm.controls.ruleCriterias.controls[i].controls.questions.value">{{c.questionText}}</option>
                                   </select>                                                    
                 <small [hidden]="myForm.controls.ruleCriterias.controls[i].controls.question.valid" class="text-danger">
                     question is required

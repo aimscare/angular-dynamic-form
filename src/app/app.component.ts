@@ -169,7 +169,7 @@ rule:IRule;
 
             console.log("selectedValues=["+JSON.stringify(selectedValue)+"]");
             this.myForm.controls['ruleCriterias']=this._fb.array([])
-            var removedValue=arrayControl.controls[j].controls["question"].value;
+            var removeValue=arrayControl.controls[j].controls["question"].value;
             const array = <FormArray>this.myForm.controls['ruleCriterias'];
             
             selectedValue.forEach( vl => {
@@ -177,7 +177,7 @@ rule:IRule;
               var qObj=this.sourceQuestions.filter(function(o) { return o.questionText === vl; });
               console.log("qObj=["+JSON.stringify(qObj)+"]");
 
-              if(vl !=removedValue){
+              if(vl !=removeValue){
                   let newGroup = this._fb.group({
                     //question: [qObj[0], Validators.required],
                     question: [vl, Validators.required],
