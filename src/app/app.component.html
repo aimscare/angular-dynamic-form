@@ -15,7 +15,9 @@
                 <label>Question</label>
                 <!-- <p-dropdown name="singleselect" [options]="myForm.controls.ruleCriterias.controls[i].controls.questions" formControlName="question"
                                   placeholder="Select a question" (onChange)="enableSubmit()" [autoWidth]="false"></p-dropdown> -->
+                                  <p>{{i}} {{myForm.controls.ruleCriterias?.controls[i]?.controls?.questions.value}}</p>
                                   <select formControlName="question">
+                                      <option disabled selected value> -- select an option -- </option>
                                     <option *ngFor="let c of myForm.controls.ruleCriterias.controls[i].controls.questions.value">{{c.questionText}}</option>
                                   </select>                                                    
                 <small [hidden]="myForm.controls.ruleCriterias.controls[i].controls.question.valid" class="text-danger">
@@ -23,14 +25,16 @@
                 </small>
               </div>
             </div>
+            <div class="margin-20">
+              <a (click)="addRuleCriteria(i)" style="cursor: default">
+                Add another rule criteria +
+              </a>
+            </div>
 
           </div>
+
         </div>
-        <div class="margin-20">
-          <a (click)="addRuleCriteria()" style="cursor: default">
-            Add another rule criteria +
-          </a>
-        </div>
+      
 
         <div class="margin-20">
           <button type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid">Submit</button>

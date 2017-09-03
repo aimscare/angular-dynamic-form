@@ -73,39 +73,35 @@ rule:IRule;
 
     additions :number=0;
 
-    questionOptions(arrayControl:any): any[] {
+    questionOptions(j:number,arrayControl:any): any[] {
+
+      if(j ==-1){
+        return this.questions;
+      }
 
       console.log("questionOptions:array length=["+arrayControl.controls.length+"]");
 
-     
+      var filtered=[];
       if(arrayControl.controls.length > 0){
 
-        var ids=[];
-        arrayControl.controls.forEach(formgroup =>{
-          console.log("value1=["+JSON.stringify(formgroup.activeIndex)+"]");
-
-          console.log("value2=["+JSON.stringify(formgroup.value.questions)+"]");
-          ids.push(formgroup.value.question);
-  
-        });
-
-        for(var i=0;i < arrayControl.controls.length ;i++){
-          //myForm.controls.ruleCriterias.controls[i].controls.questions.value
-          //["0"].controls.questions
-          //.controls["0"].controls.questions
+       /*  for(var i=0;i < arrayControl.controls.length ;i++){
           console.log("selected question=["+arrayControl.controls[i].controls["question"].value+"]");
           var previousValue=arrayControl.controls[i].controls["question"].value;
-          var filtered= this.questions.filter(function(o) { return o.questionText === previousValue; });
-          arrayControl.controls[i].controls["questions"].patchValue(filtered);
+          console.log("previousvalue=["+previousValue+"]");
+          filtered.push(this.questions.filter(function(o) { return o.questionText === previousValue; }));
+          //arrayControl.controls[i].controls["questions"].patchValue(filtered);
           console.log("Index=["+i+"],value=["+arrayControl.controls[i].controls.questions.value.length+"]");
-        }
+        } */
+        var previousValue=arrayControl.controls[j].controls["question"].value;
+        console.log("filtered=["+JSON.stringify(filtered)+"]");
+         //arrayControl.controls[j].controls["questions"].patchValue(filtered);
+     
+       arrayControl.controls[j].controls["questions"].patchValue(this.questions.filter(function(o) { return o.questionText === previousValue; }));
+         
 
-       
-        
-
-        //this.questions = this.questions.filter(function(o) { return o.questionText === "questionText4"; });
-        console.log("Inside loop=["+arrayControl.controls['questions']);
-        return filtered;
+        this.questions = this.questions.filter(function(o) { return o.questionText !== previousValue; });
+        console.log("Inside loop=["+JSON.stringify(arrayControl.controls[j].controls['questions'].value)+"]");
+        return this.questions;
         
       }
       return this.questions;
@@ -115,12 +111,22 @@ rule:IRule;
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
       let newGroup = this._fb.group({
           question: ['', Validators.required],
-          questions:[this.questionOptions(arrayControl)]
-        });
-        
-        var ctrlsSize=arrayControl.controls.length;     
+          questions:[this.questionOptions(-1,arrayControl)]
+        });  
         arrayControl.push(newGroup); 
-        //arrayControl.controls[0].setValue('questions',this.questions);
+        
+    }
+
+    initAddRuleCriteria(i:number) {
+      const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
+        var filtered=this.questionOptions(i,arrayControl);
+      let newGroup = this._fb.group({
+          question: ['', Validators.required],
+          questions:[filtered]
+        });
+            
+        arrayControl.push(newGroup); 
+        
     }
 
     initRuleCriteriaModifyMode(rule:IRule) {
@@ -145,13 +151,19 @@ rule:IRule;
 
     }
 
-    addRuleCriteria() {
-
+    addRuleCriteria(i:number) {
+      console.log("add rule index=["+i+"]");
 
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
+      var status=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
+        return formgroup.status=='INVALID';
+       })
+       if(status){
+         return
+       }
       console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
       if(arrayControl.controls.length <= this.criteriaCount){
-        this.initRuleCriteria();
+        this.initAddRuleCriteria(i);
       }
 
      }
