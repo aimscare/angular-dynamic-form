@@ -3,7 +3,7 @@ import { FormGroup, FormArray,FormControl, FormBuilder, Validators } from '@angu
 
 import {Message,SelectItem} from 'primeng/primeng';
 import {CountryService} from './../service/country-service';
-import {Country,Customer,IRule} from './../service/interfaces';
+import {Country,Customer,IRule,IQuestion} from './../service/interfaces';
 
 import * as _ from 'underscore';
 import * as _s from 'underscore.string';
@@ -33,7 +33,7 @@ activeIndex: number = 0;
 
 
 questions: any[];
-sourceQuestions: any[];
+sourceQuestions: IQuestion[];
 
 options: SelectItem[];
 
@@ -179,10 +179,14 @@ rule:IRule;
 
               if(vl !=removedValue){
                   let newGroup = this._fb.group({
+                    //question: [qObj[0], Validators.required],
                     question: [vl, Validators.required],
-                    questions:[qObj]
+                    questions:[this.sourceQuestions]
                   });
+
+                  
                   array.push(newGroup); 
+                  //array.controls['question'].setValue([{questionId:qObj[0].questionId,questionText:qObj[0].questionText}]);
               }
           });
                 
