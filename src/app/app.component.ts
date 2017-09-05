@@ -74,18 +74,43 @@ rule:IRule;
 
     additions :number=0;
 
-    questionOptions(j:number,arrayControl:any): any[] {
+    store = new Map<string, string>();
+    selectedIds:Set<IQuestion> =new Set<IQuestion>();
+    private questionsMap:Map<string, Array<IQuestion>> = 
+    new Map([["question1", [{"questionId": "question1","questionText": "questionText1"}]],
+    ["question2", [{"questionId": "question2","questionText": "questionText2"}]],
+    ["question3", [{"questionId": "question3","questionText": "questionText3"}]],
+    ["question4", [{"questionId": "question4","questionText": "questionText4"}]]]);
+    
 
-      if(j ==-1){
-        return this.questions;
+
+    questionOptions(arrayControl:any): any[] {
+      
+      var arrayLength=arrayControl.controls.length;
+      console.log("questionOptions:array length=["+arrayLength+"]");
+      if( arrayLength == 0){
+         return this.questions;
       }
-        console.log("questionOptions:array length=["+arrayControl.controls.length+"]");
-        var previousValue=arrayControl.controls[j].controls["question"].value;
 
-        arrayControl.controls[j].controls["questions"].patchValue(this.questions.filter(function(o) { return o.questionText === previousValue; }));
-        this.questions = this.questions.filter(function(o) { return o.questionText !== previousValue; });
-        console.log("Inside loop=["+JSON.stringify(arrayControl.controls[j].controls['questions'].value)+"]");
-        return this.questions;
+      var lastQuestionList=arrayControl.controls[arrayLength-1].controls["questions"].value;
+      var lastSelectedQuestion=arrayControl.controls[arrayLength-1].controls["question"].value;
+      var lastSelectedQuestionObj= this.questionsMap.get(lastSelectedQuestion);
+
+      var remainingQuestions=[];
+      lastQuestionList.forEach( el=>{
+            if(el.questionId !=lastSelectedQuestion){
+              remainingQuestions.push(el);
+            }
+      });
+
+      console.log("lastQuestionList=["+JSON.stringify(lastQuestionList)+"]");
+      console.log("lastSelectedQuestion=["+JSON.stringify(lastSelectedQuestion)+"]");
+      console.log("lastSelectedQuestionObj=["+JSON.stringify(lastSelectedQuestionObj)+"]");
+      console.log("remainingQuestions=["+JSON.stringify(remainingQuestions)+"]");
+
+      arrayControl.controls[arrayLength-1].controls["questions"].patchValue(lastSelectedQuestionObj);
+      return remainingQuestions;
+
     
     }  
 
@@ -93,15 +118,15 @@ rule:IRule;
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
       let newGroup = this._fb.group({
           question: ['', Validators.required],
-          questions:[this.questionOptions(-1,arrayControl)]
+          questions:[this.questionOptions(arrayControl)]
         });  
         arrayControl.push(newGroup); 
         
     }
 
-    initAddRuleCriteria(i:number) {
+    initAddRuleCriteria() {
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
-        var filtered=this.questionOptions(i,arrayControl);
+        var filtered=this.questionOptions(arrayControl);
       let newGroup = this._fb.group({
           question: ['', Validators.required],
           questions:[filtered]
@@ -133,8 +158,8 @@ rule:IRule;
 
     }
 
-    addRuleCriteria(i:number) {
-      console.log("add rule index=["+i+"]");
+    addRuleCriteria() {
+      //console.log("add rule index=["+i+"]");
 
       const arrayControl = <FormArray>this.myForm.controls['ruleCriterias'];
       var status=arrayControl.controls.some(function checkFormGroupStatus(formgroup, index, array) {
@@ -145,7 +170,7 @@ rule:IRule;
        }
       console.log("addRuleCriteria:array length=["+arrayControl.controls.length+"]");
       if(arrayControl.controls.length <= this.criteriaCount){
-        this.initAddRuleCriteria(i);
+        this.initAddRuleCriteria();
       }
 
      }

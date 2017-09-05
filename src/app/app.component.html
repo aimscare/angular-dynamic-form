@@ -19,19 +19,20 @@
                                   <p>{{i}} Question: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.question.value}}</p>
                                   <select formControlName="question">
                                       <option disabled value> -- select an option -- </option>
-                                    <option  [value]="c.questionText" *ngFor="let c of myForm.controls.ruleCriterias.controls[i].controls.questions.value">{{c.questionText}}</option>
+                                    <option  [value]="c.questionId" *ngFor="let c of myForm.controls.ruleCriterias.controls[i].controls.questions.value">{{c.questionText}}</option>
                                   </select>                                                    
                 <small [hidden]="myForm.controls.ruleCriterias.controls[i].controls.question.valid" class="text-danger">
                     question is required
                 </small>
               </div>
             </div>
-            <div class="margin-20">
-              <a (click)="addRuleCriteria(i)" style="cursor: default">
-                Add another rule criteria +
-              </a>
-            </div>
+         
 
+          </div>
+          <div class="margin-20">
+            <a (click)="addRuleCriteria()" style="cursor: default">
+              Add another rule criteria +
+            </a>
           </div>
 
         </div>
