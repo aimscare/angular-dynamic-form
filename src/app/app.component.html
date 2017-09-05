@@ -14,7 +14,7 @@
               <div class="form-group col-xs-6">
                 <label>Question</label>
                 <p>{{i}} Questions: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.questions.value}}</p>
-                <p>{{i}} Question: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.question.value}}</p>
+                <p>{{i}} Question: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.question.value.questionId}}</p>
                <p-dropdown name="singleselect" [options]="myForm.controls.ruleCriterias.controls[i].controls.questions.value" formControlName="question"
                                   placeholder="Select a question" (onChange)="enableSubmit()" [autoWidth]="false"></p-dropdown> 
                               
