@@ -13,14 +13,16 @@
             <div class="panel-body" [formGroupName]="i">
               <div class="form-group col-xs-6">
                 <label>Question</label>
-                <!-- <p-dropdown name="singleselect" [options]="myForm.controls.ruleCriterias.controls[i].controls.questions" formControlName="question"
-                                  placeholder="Select a question" (onChange)="enableSubmit()" [autoWidth]="false"></p-dropdown> -->
-                                  <p>{{i}} Questions: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.questions.value}}</p>
-                                  <p>{{i}} Question: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.question.value}}</p>
-                                  <select formControlName="question">
+                <p>{{i}} Questions: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.questions.value}}</p>
+                <p>{{i}} Question: {{myForm.controls.ruleCriterias?.controls[i]?.controls?.question.value}}</p>
+               <p-dropdown name="singleselect" [options]="myForm.controls.ruleCriterias.controls[i].controls.questions.value" formControlName="question"
+                                  placeholder="Select a question" (onChange)="enableSubmit()" [autoWidth]="false"></p-dropdown> 
+                              
+                                  <!-- <select formControlName="question">
                                       <option disabled value> -- select an option -- </option>
                                     <option  [value]="c.questionId" *ngFor="let c of myForm.controls.ruleCriterias.controls[i].controls.questions.value">{{c.questionText}}</option>
-                                  </select>                                                    
+                                  </select>    -->
+
                 <small [hidden]="myForm.controls.ruleCriterias.controls[i].controls.question.valid" class="text-danger">
                     question is required
                 </small>

@@ -76,13 +76,19 @@ rule:IRule;
 
     store = new Map<string, string>();
     selectedIds:Set<IQuestion> =new Set<IQuestion>();
-    private questionsMap:Map<string, Array<IQuestion>> = 
+ /*    private questionsMap:Map<string, Array<IQuestion>> = 
     new Map([["question1", [{"questionId": "question1","questionText": "questionText1"}]],
     ["question2", [{"questionId": "question2","questionText": "questionText2"}]],
     ["question3", [{"questionId": "question3","questionText": "questionText3"}]],
-    ["question4", [{"questionId": "question4","questionText": "questionText4"}]]]);
+    ["question4", [{"questionId": "question4","questionText": "questionText4"}]]]); */
     
+    private questionsMap:Map<string, Array<SelectItem>> = 
+    new Map([["question1", [{"label":"questionText1","value":{"questionText":"questionText1","questionId":"question1"}}]],
+    ["question2", [{"label":"questionText2","value":{"questionText":"questionText2","questionId":"question2"}}]],
+    ["question3", [{"label":"questionText3","value":{"questionText":"questionText3","questionId":"question3"}}]],
+    ["question4", [{"label":"questionText4","value":{"questionText":"questionText4","questionId":"question4"}}]]]);
 
+    
 
     questionOptions(arrayControl:any): any[] {
       
@@ -94,11 +100,11 @@ rule:IRule;
 
       var lastQuestionList=arrayControl.controls[arrayLength-1].controls["questions"].value;
       var lastSelectedQuestion=arrayControl.controls[arrayLength-1].controls["question"].value;
-      var lastSelectedQuestionObj= this.questionsMap.get(lastSelectedQuestion);
+      var lastSelectedQuestionObj= this.questionsMap.get(lastSelectedQuestion.questionId);
 
       var remainingQuestions=[];
       lastQuestionList.forEach( el=>{
-            if(el.questionId !=lastSelectedQuestion){
+            if(el.value.questionId !=lastSelectedQuestion.questionId){
               remainingQuestions.push(el);
             }
       });
@@ -280,9 +286,9 @@ rule:IRule;
       // }
 
       this.options=options;
-      this.questions=rule.ruleCriteria.questionList;
-      this.sourceQuestions=rule.ruleCriteria.questionList;
-      //this.questions=questions;
+      //this.questions=rule.ruleCriteria.questionList;
+      //this.sourceQuestions=rule.ruleCriteria.questionList;
+      this.questions=questions;
 
 
     }
