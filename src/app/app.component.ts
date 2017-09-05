@@ -82,13 +82,13 @@ rule:IRule;
     ["question3", [{"questionId": "question3","questionText": "questionText3"}]],
     ["question4", [{"questionId": "question4","questionText": "questionText4"}]]]); */
     
-    private questionsMap:Map<string, Array<SelectItem>> = 
+   /*  private questionsMap:Map<string, SelectItem[]> = 
     new Map([["question1", [{"label":"questionText1","value":{"questionText":"questionText1","questionId":"question1"}}]],
     ["question2", [{"label":"questionText2","value":{"questionText":"questionText2","questionId":"question2"}}]],
     ["question3", [{"label":"questionText3","value":{"questionText":"questionText3","questionId":"question3"}}]],
-    ["question4", [{"label":"questionText4","value":{"questionText":"questionText4","questionId":"question4"}}]]]);
+    ["question4", [{"label":"questionText4","value":{"questionText":"questionText4","questionId":"question4"}}]]]); */
 
-    
+     questionsMap:Map<string, SelectItem[]> =new Map<string, SelectItem[]>();
 
     questionOptions(arrayControl:any): any[] {
       
@@ -267,14 +267,18 @@ rule:IRule;
     generateRule(rule:IRule){
       let questions: any[] = [];
       let options: any[] = [];
+      let questionsMap:Map<string, SelectItem[]> =new Map<string, SelectItem[]>();
       this.criteriaCount=rule.ruleCriteria.selections.length;
       console.log("CriteriaCount=["+this.criteriaCount+"]");
 
       _.each(rule.ruleCriteria.questionList,function(question){
             //console.log("Question=["+JSON.stringify(question)+"]");
             questions.push({label: question.questionText, value: {questionText: question.questionText, questionId: question.questionId}});
-
+            questionsMap.set(question.questionId,[{label: question.questionText, value: {questionText: question.questionText, questionId: question.questionId}}]);
       });
+
+
+      
       // for (let criteria of rule.ruleCriteria) {
       //
       //   for
@@ -289,6 +293,7 @@ rule:IRule;
       //this.questions=rule.ruleCriteria.questionList;
       //this.sourceQuestions=rule.ruleCriteria.questionList;
       this.questions=questions;
+      this.questionsMap=questionsMap;
 
 
     }
