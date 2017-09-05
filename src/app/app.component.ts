@@ -186,57 +186,24 @@ rule:IRule;
 
     removeQuestions(j:number,arrayControl:any) {
       
+              var length=arrayControl.controls.length;
               console.log("removeQuestions:array length=["+arrayControl.controls.length+"]");
-        /*     var selectedValue=[];
-            for(var i=0;i < arrayControl.controls.length;i++){
-              selectedValue.push(arrayControl.controls[i].controls["question"].value);
-            }
-
-            console.log("selectedValues=["+JSON.stringify(selectedValue)+"]");
-            this.myForm.controls['ruleCriterias']=this._fb.array([])
-            var removeValue=arrayControl.controls[j].controls["question"].value;
-            const array = <FormArray>this.myForm.controls['ruleCriterias'];
-            
-            selectedValue.forEach( vl => {
-              console.log("vl=["+vl+"]");
-              var qObj=this.sourceQuestions.filter(function(o) { return o.questionText === vl; });
-              console.log("qObj=["+JSON.stringify(qObj)+"]");
-
-              if(vl !=removeValue){
-                  let newGroup = this._fb.group({
-                    //question: [qObj[0], Validators.required],
-                    question: [vl, Validators.required],
-                    questions:[this.sourceQuestions]
-                  });
-
-                  
-                  array.push(newGroup); 
-                  //array.controls['question'].setValue([{questionId:qObj[0].questionId,questionText:qObj[0].questionText}]);
-              }
-          });
-                 */
-          
-            
+                 
               var removeValue=arrayControl.controls[j].controls["question"].value;
               var removeQuestionsList=arrayControl.controls[j].controls["questions"].value;
-
-              var removedQuestion=this.sourceQuestions.filter(function(o) { return o.questionText === removeValue; });
+              var removeQuestionObj=this.questionsMap.get(removeValue);
 
               console.log("removedValue=["+removeValue+"]");
-              console.log("removedQuestion=["+JSON.stringify(removedQuestion)+"]");
+              console.log("removeQuestionObj=["+JSON.stringify(removeQuestionObj)+"]");
               console.log("removedQuestionList=["+JSON.stringify(removeQuestionsList)+"]");
               
-              var length=arrayControl.controls.length;
+              
 
               if(j != length-1){
                 console.log("Inside if remove="+length);
               
               var lastIndexQuestions=arrayControl.controls[length-1].controls['questions'].value;
-              console.log("lastIndexQuestions org=["+lastIndexQuestions+"]");
-
-             /*  removedQuestion.forEach(question=>{
-                lastIndexQuestions.push(question);
-              }) */
+              console.log("lastIndexQuestions=["+lastIndexQuestions+"]");
 
               removeQuestionsList.forEach(question=>{
                 lastIndexQuestions.push(question);
@@ -245,7 +212,6 @@ rule:IRule;
               
               arrayControl.controls[length-1].controls["questions"].patchValue(lastIndexQuestions);
               
-              console.log("lastIndexQuestions after patch=["+lastIndexQuestions+"]");
               
             }
             else {
@@ -270,10 +236,6 @@ rule:IRule;
               var length=arrayControl.controls.length;
               console.log("removeQuestions:array length after removal=["+length+"]");
 
-              //arrayControl.controls[j].controls["questions"].patchValue(this.questions.filter(function(o) { return o.questionText === previousValue; }));
-             // this.questions = this.questions.filter(function(o) { return o.questionText !== previousValue; });
-              
-              
           
           }  
 
